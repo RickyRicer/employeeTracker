@@ -144,4 +144,45 @@ const viewAllRoles = async () => {
     }
   }; 
 
+
+  const addDepartment = () => {
+    inquirer
+      .prompt([{
+        type: 'input',
+        name: 'newDepartment',
+        message: "What is the name of the new department?",
+      }])
+      .then(async (response) => {
+        try {
+          const departmentInsert = 'INSERT INTO department(name) VALUES(?);';
+          await connection.query(departmentInsert, [response.newDepartment]);
+          console.log(`
+          ${response.newDepartment} was added successfully.`);
+          viewAllDepartments();
+        } catch (e) {
+          console.log(`Error: ${e}`);
+          process.exit();
+        }
+      });
+  };
+
+
+  const getDepartments = async () => {
+    try {
+      const departmentSelect = 'SELECT name, id FROM department;';
+      let [departments] = await connection.query(departmentSelect);
+      departments = departments.map(({
+        name,
+        id
+      }) => ({
+        name,
+        value: id
+      }));
+      return departments;
+    } catch (e) {
+      console.log(`Error: ${e}`);
+      process.exit(); 
+    }
+  };
+
 init();
