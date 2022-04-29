@@ -80,6 +80,44 @@ const init = async () => {
                  process.exit();
              }
          })
-}
+};
+
+const viewAllDepartments = async () => {
+    try {
+        const departmentSelecter = "SELECT * FROM department ORDER BY id;";
+        const [departments] = await connection.query(departmentSelecter);
+        console.log(`
+        #### All Departments ####
+        `);
+        console.table(departments);
+        init();
+    } catch (e) {
+        console.log(`Error: ${e}`);
+    }
+};
+
+const viewAllRoles = async () => {
+    try {
+      const rolesSelecter = `SELECT r.id,
+                            r.title AS 'job title',
+                            d.name AS department,
+                            r.salary
+                          FROM role r
+                          LEFT JOIN department d 
+                          ON r.department_id = d.id;`;
+      const [roles] = await connection.query(rolesSelecter);
+      console.log(`
+      
+      #### All Roles ####
+      `);
+      console.table(roles);
+      init();
+    } catch (e) {
+      console.log(`Error: ${e}`);
+      process.exit(); 
+    }
+  };
+
+  
 
 init();
