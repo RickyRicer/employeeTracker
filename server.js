@@ -169,8 +169,8 @@ const viewAllRoles = async () => {
 
   const getDepartments = async () => {
     try {
-      const departmentSelect = 'SELECT name, id FROM department;';
-      let [departments] = await connection.query(departmentSelect);
+      const departmentSelecter = 'SELECT name, id FROM department;';
+      let [departments] = await connection.query(departmentSelecter);
       departments = departments.map(({
         name,
         id
@@ -179,6 +179,57 @@ const viewAllRoles = async () => {
         value: id
       }));
       return departments;
+    } catch (e) {
+      console.log(`Error: ${e}`);
+      process.exit(); 
+    }
+  };
+
+  const addRole = () => {
+    inquirer
+      .prompt([{
+          type: 'input',
+          name: 'newRoleName',
+          message: 'What is the name of the new role?',
+        },
+        {
+          type: 'input',
+          name: 'salaryAmount',
+          message: 'What is the salary for this role?',
+        },
+        {
+          type: 'list',
+          message: 'Which department does this role belong to?',
+          name: 'department',
+          choices: getDepartments,
+        },
+      ]).then(async (response) => {
+        try {
+          const roleData = [response.newRoleName, Number(response.salaryAmount), response.department];
+          const roleInsert = `INSERT INTO role(title, salary, department_id) VALUES(?, ?, ?);`;
+          await connection.query(roleInsert, roleData);
+          console.log(`
+          ${response.newRoleName} was added successfully.`);
+          viewAllRoles();
+        } catch (e) {
+          console.log(`Error: ${e}`);
+          process.exit(); 
+        }
+      })
+  };
+
+  const getManagers = async () => {
+    try {
+      const managersSelecter = `SELECT CONCAT(first_name, " ", last_name) AS name, id FROM employee;`;
+      let [managers] = await connection.query(managersSelecter);
+      managers = managers.map(({
+        name,
+        id
+      }) => ({
+        name,
+        value: id
+      }));
+      return managers;
     } catch (e) {
       console.log(`Error: ${e}`);
       process.exit(); 
