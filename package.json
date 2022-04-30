@@ -4,5 +4,22 @@
     "dotenv": "^16.0.0",
     "inquirer": "^8.2.3",
     "mysql2": "^2.3.3"
-  }
+  },
+
+  "name": "employeetracker",
+  "description": "## Your Task",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RickyRicer/employeeTracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RickyRicer/employeeTracker/issues"
+  },
+  "homepage": "https://github.com/RickyRicer/employeeTracker#readme"
 }
