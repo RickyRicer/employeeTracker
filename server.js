@@ -29,7 +29,7 @@ greeting();
 
 const init = async () => {
     await inquirer
-     .prompt([{
+    .prompt([{
          type: 'list',
          message: 'Which option would you like to select?',
          name: 'choice',
@@ -38,7 +38,7 @@ const init = async () => {
              return 'View All Departments';
          },
      }]).then((response) => {
-         let userChoice = response.option;
+         let userChoice = response.choice;
          switch (userChoice){
              //User exits
             case choices[7]:
@@ -72,11 +72,11 @@ const init = async () => {
                 process.exit(); 
             } 
          })
-         .catch((error) => {
-             if (error.isTtyError) {
+         .catch((e) => {
+             if (e.isTtyError) {
                  console.log(`Error: Prompt couldn't be rendered`);
              } else {
-                 console.log(`Error: ${error}`);
+                 console.log(`Error: ${e}`);
                  process.exit();
              }
          })
@@ -100,7 +100,7 @@ const viewAllRoles = async () => {
     try {
       const rolesSelecter = `SELECT r.id,
                             r.title AS 'job title',
-                            d.name AS department,
+                            d.department_name AS department,
                             r.salary
                           FROM role r
                           LEFT JOIN department d 
@@ -124,7 +124,7 @@ const viewAllRoles = async () => {
                                 e.first_name, 
                                 e.last_name, 
                                 r.title AS 'job title',
-                                d.name AS department,
+                                d.department_name AS department,
                                 r.salary AS salary,
                                 CONCAT (m.first_name, " ", m.last_name) AS manager
                               FROM employee e
@@ -236,4 +236,93 @@ const viewAllRoles = async () => {
     }
   };
 
+  const addEmployee = () => {
+    inquirer
+      .prompt([{
+          type: 'input',
+          name: 'first_name',
+          message: `Please enter the new employee's first name:`,
+        },
+        {
+          type: 'input',
+          name: 'last_name',
+          message: `Please enter the new employee's last name:`,
+        },
+        {
+          type: 'list',
+          name: 'role',
+          message: `What is the new employee's role?`,
+          choices: getRoles,
+        },
+        {
+          type: 'list',
+          name: 'manager',
+          message: `Who is the new employee's manager?`,
+          choices: getManagers,
+        },
+      ]).then(async (response) => {
+        try {
+          const employeeData = [response.first_name, response.last_name, response.role, response.manager];
+          const employeeInsert = `INSERT INTO employee(first_name, last_name, role_id, manager_id) VALUES(?, ?, ?, ?);`;
+          await connection.query(employeeInsert, employeeData);
+          console.log(`
+          ${response.first_name} ${response.last_name} was added successfully.`);
+          viewAllEmployees();
+        } catch (e) {
+          console.log(`Error: ${e}`);
+          process.exit(); 
+        }
+      })
+  };  
+
+  const getEmployees = async () => {
+    try {
+      const employeesSelect = `SELECT e.id, CONCAT(e.first_name, " ", e.last_name, " - ", r.title) AS name
+                              FROM employee e
+                              LEFT JOIN role r ON e.role_id = r.id;`;
+      let [employees] = await connection.query(employeesSelect);
+      employees = employees.map(({
+        name,
+        id
+      }) => ({
+        name,
+        value: id
+      }));
+      return employees;
+    } catch (e) {
+      console.log(`Error: ${e}`);
+      process.exit(); 
+    }
+  };
+
+
+  const updateEmployeeRole = async () => {
+    inquirer
+      .prompt([{
+          type: 'list',
+          name: 'employee',
+          message: `Which employee needs a role update?`,
+          choices: getEmployees,
+        },
+        {
+          type: 'list',
+          name: 'newRole',
+          message: `What should the new employee's role be?`,
+          choices: getRoles,
+        },
+      ]).then(async (response) => {
+        try {
+          const employeeRoleData = [response.newRole, response.employee];
+          const employeeRoleUpdate = 'UPDATE employee SET role_id = ? WHERE id = ?;';
+          connection.query(employeeRoleUpdate, employeeRoleData);
+          console.log(`
+          Employee's role was updated successfully.`);
+          viewAllEmployees();
+        } catch (e) {
+          console.log(`Error: ${e}`);
+          process.exit(); // exit the node js program
+        }
+      })
+  };
+  
 init();
