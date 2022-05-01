@@ -31,6 +31,7 @@ const init = async () => {
     await inquirer
     .prompt([{
          type: 'list',
+         pageSize: 12,
          message: 'Which option would you like to select?',
          name: 'choice',
          choices: choices,
