@@ -154,7 +154,7 @@ const viewAllRoles = async () => {
       }])
       .then(async (response) => {
         try {
-          const departmentInsert = 'INSERT INTO department(name) VALUES(?);';
+          const departmentInsert = 'INSERT INTO department(department_name) VALUES(?);';
           await connection.query(departmentInsert, [response.newDepartment]);
           console.log(`
           ${response.newDepartment} was added successfully.`);
@@ -169,7 +169,7 @@ const viewAllRoles = async () => {
 
   const getDepartments = async () => {
     try {
-      const departmentSelecter = 'SELECT name, id FROM department;';
+      const departmentSelecter = 'SELECT department_name, id FROM department;';
       let [departments] = await connection.query(departmentSelecter);
       departments = departments.map(({
         name,
@@ -217,6 +217,25 @@ const viewAllRoles = async () => {
         }
       })
   };
+
+  const getRoles = async () => {
+    try {
+      const rolesSelect = `SELECT title, id FROM role;`;
+      let [roles] = await connection.query(rolesSelect);
+      roles = roles.map(({
+        title,
+        id
+      }) => ({
+        name: title,
+        value: id
+      }));
+      return roles;
+    } catch (error) {
+      console.log(`Error: ${error}`);
+      process.exit();
+    }
+  };
+  
 
   const getManagers = async () => {
     try {
@@ -320,7 +339,7 @@ const viewAllRoles = async () => {
           viewAllEmployees();
         } catch (e) {
           console.log(`Error: ${e}`);
-          process.exit(); // exit the node js program
+          process.exit();
         }
       })
   };

@@ -1,36 +1,36 @@
 INSERT INTO department(department_name)
 VALUES
     ('Sales'),
-    ('Logistics'),
-    ('Engineering'),
+    ('Used Cars'),
+    ('Service'),
     ('Finance'),
-    ('Support');
+    ('Parts');
 
 INSERT INTO role(title, salary, department_id)
 VALUES
-    ('Sales Manager', 100000, 1),
-    ('Sales Development Rep', 80000, 1),
-    ('Logistics Manager', 120000, 2),
-    ('Logistics Coordinator', 100000, 2),
-    ('Engineering Manager', 260000, 3),
-    ('Technical Lead', 180000, 3),
-    ('Software Developer', 120000, 3),
-    ('Finance Director', 160000, 4),
-    ('Accountant', 110000, 4),
-    ('Support Team Lead', 92000, 5),
-    ('Support Engineer', 70000, 5);
+    ('General Manager', 1000000, 1),
+    ('Sales Manager', 150000, 1),
+    ('Vehicle Appraiser', 120000, 2),
+    ('Assistant Appraiser', 65000, 2),
+    ('Service Director', 260000, 3),
+    ('Service Manager', 160000, 3),
+    ('Service Advisor', 105000, 3),
+    ('Finance Director', 259000, 4),
+    ('Finance Manager', 175000, 4),
+    ('Parts Manager', 92000, 5),
+    ('Parts Rep', 70000, 5);
 
 INSERT INTO employee(first_name, last_name, role_id, manager_id)
 VALUES
-    ('Alex', 'Hartman', 1, NULL),
-    ('Cobie', 'Flores', 2, 1),
-    ('Gracie', 'Hewitt', 3, NULL),
-    ('Kirk', 'French', 4, 3),
-    ('Kamil', 'Singh', 5, NULL),
-    ('Amani', 'Brown', 6, 5),
-    ('Emile', 'Crane', 7, 5),
-    ('Jena', 'Huff', 8, NULL),
-    ('Arandeep', 'Nguyen', 9, 8),
-    ('Vicki', 'Plant', 10, NULL),
-    ('Jadene', 'Blackmore', 11, 10);
+    ('Steve', 'Powers', 1, NULL),
+    ('Enrico', 'Burrows', 2, 1),
+    ('Rick', 'Ansay', 3, NULL),
+    ('Robert', 'Jackson', 4, 3),
+    ('Keith', 'Florian', 5, NULL),
+    ('Randall', 'Watson', 6, 5),
+    ('Jared', 'Chipkin', 7, 5),
+    ('Scott', 'Shevlin', 8, NULL),
+    ('Andy', 'Benevides', 9, 8),
+    ('Scott', 'Sievers', 10, NULL),
+    ('Tony', 'Stone', 11, 10);
     
