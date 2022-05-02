@@ -231,8 +231,8 @@ const viewAllRoles = async () => {
         value: id
       }));
       return roles;
-    } catch (error) {
-      console.log(`Error: ${error}`);
+    } catch (e) {
+      console.log(`e: ${e}`);
       process.exit();
     }
   };
