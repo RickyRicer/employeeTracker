@@ -2,7 +2,7 @@ const connection = require('./config');
 const inquirer = require('inquirer');
 require('console.table');
 
-const choices = [
+const options = [
     'View All Departments',
     'View All Roles',
     'View All Employees',
@@ -34,7 +34,7 @@ const init = async () => {
          pageSize: 12,
          message: 'Which option would you like to select?',
          name: 'choice',
-         choices: choices,
+         choices: options,
          default() {
              return 'View All Departments';
          },
@@ -42,29 +42,29 @@ const init = async () => {
          let userChoice = response.choice;
          switch (userChoice){
              //User exits
-            case choices[7]:
+            case options[7]:
                 console.log('Exiting tracker...');
                 connection.end();
                 process.exit();
-            case choices[0]:
+            case options[0]:
                 viewAllDepartments();
                 break;
-            case choices[1]: // View All Roles
+            case options[1]: // View All Roles
                 viewAllRoles();
                 break;
-            case choices[2]: // View All Employees
+            case options[2]: // View All Employees
                 viewAllEmployees();
                 break;
-            case choices[3]: // Add A Department
+            case options[3]: // Add A Department
                 addDepartment();
                 break;
-            case choices[4]: // Add A Role
+            case options[4]: // Add A Role
                 addRole();
                 break;
-            case choices[5]: // Add An Employee
+            case options[5]: // Add An Employee
                 addEmployee();
                 break;
-            case choices[6]: // Update An Employee Role
+            case options[6]: // Update An Employee Role
                 updateEmployeeRole();
                 break;
             default: // Exit
@@ -270,6 +270,7 @@ const viewAllRoles = async () => {
         },
         {
           type: 'list',
+          pageSize: 12,
           name: 'role',
           message: `What is the new employee's role?`,
           choices: getRoles,
@@ -320,12 +321,14 @@ const viewAllRoles = async () => {
     inquirer
       .prompt([{
           type: 'list',
+          pageSize: 20,
           name: 'employee',
           message: `Which employee needs a role update?`,
           choices: getEmployees,
         },
         {
           type: 'list',
+          pageSize: 16,
           name: 'newRole',
           message: `What should the new employee's role be?`,
           choices: getRoles,
