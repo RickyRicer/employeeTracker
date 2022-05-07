@@ -11,7 +11,7 @@
 - [Tests](#tests)
 - [Questions](#questions)
 ## Description
-🔍 This CLI app uses node.js, inquirer, and C Table to create an editable employee management system. You can easily view all departments, add departments, or add employees and roles. 
+🔍 This CLI app uses node.js, inquirer, mySQL, and C Table to create an editable employee management system. You can easily view all departments, add departments, or add employees and roles. 
 ## Installation
 💾 
 1. Clone the Repository
@@ -29,6 +29,7 @@ This application is covered by the MIT license.
 You can contribute to this project by adhering to the code of conduct as mentioned: [here](https://www.contributor-covenant.org/#:~:text=Contributor%20Covenant%20is%20a%20code,that%20distinguish%20your%20own%20community)
 ## Tests
 ✏️ 
+There is currently no testing suite for this app.
 ## Questions
 ✋ If you have any questions, please contact me through email or github, listed below:<br />
 <br />
